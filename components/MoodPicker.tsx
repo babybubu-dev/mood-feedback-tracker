@@ -22,7 +22,9 @@ export default function MoodPicker() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mood: value }),
       });
-      if (res.ok) alert("Cảm ơn bạn đã chia sẻ tâm trạng! 🛠️");
+      if (res.ok) {
+        console.log("Mood logged successfully");
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -48,7 +50,33 @@ export default function MoodPicker() {
           </button>
         ))}
       </div>
-      {selected && <p className="mt-4 text-green-600 font-medium animate-pulse">Đã ghi nhận! ✨</p>}
+      
+      {selected && (
+        <div className="mt-6 animate-in fade-in slide-in-from-bottom-4 text-left">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Chia sẻ thêm lý do nếu bạn muốn (ẩn danh):
+          </label>
+          <textarea
+            className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none text-gray-700 text-sm"
+            placeholder="Tại sao bạn cảm thấy như vậy?..."
+            rows={3}
+            onBlur={async (e) => {
+              const feedback = e.target.value;
+              if (feedback) {
+                await fetch("/api/feedback", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ moodId: selected, text: feedback }),
+                });
+                alert("Cảm ơn góp ý ẩn danh của bạn! 🛡️");
+              }
+            }}
+          />
+          <p className="mt-2 text-[10px] text-gray-400 italic">
+            * Thông tin này được gửi ẩn danh trực tiếp đến HR để cải thiện môi trường làm việc.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
