@@ -31,75 +31,85 @@ export default function MoodPicker() {
   };
 
   return (
-    <div className="backdrop-blur-2xl bg-white/70 border border-white/30 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] p-10 text-center max-w-xl mx-auto">
-      <h2 className="text-3xl font-black mb-2 text-gray-900 tracking-tight">Cảm hứng hôm nay?</h2>
-      <p className="text-gray-500 text-sm mb-10">Chia sẻ tâm trạng của bạn để Culi hiểu bạn hơn 🛠️</p>
-      
-      <div className="flex justify-between items-center gap-4">
-        {moods.map((m) => (
-          <button
-            key={m.value}
-            onClick={() => handleSelect(m.value)}
-            disabled={loading}
-            className={`group relative flex flex-col items-center transition-all duration-500 ${
-              selected === m.value ? "scale-110" : "hover:scale-105"
-            }`}
-          >
-            <div className={`text-5xl mb-3 drop-shadow-md transition-transform group-hover:rotate-12 ${
-              selected === m.value ? "animate-bounce" : ""
-            }`}>
-              {m.emoji}
-            </div>
-            <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${
-              selected === m.value ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"
-            }`}>
-              {m.label}
-            </span>
-            {selected === m.value && (
-              <div className={`absolute -bottom-2 w-1 h-1 rounded-full bg-blue-600 animate-ping`}></div>
-            )}
-          </button>
-        ))}
-      </div>
-      
-      {selected && !feedbackSent && (
-        <div className="mt-12 space-y-4 animate-in fade-in slide-in-from-top-4 duration-700">
-          <div className="relative">
-            <textarea
-              className="w-full p-6 bg-gray-50/50 border border-gray-100 rounded-[1.5rem] focus:ring-4 focus:ring-blue-500/10 focus:bg-white outline-none text-gray-700 text-sm transition-all placeholder:text-gray-400 resize-none"
-              placeholder="Có chuyện gì làm bạn bận tâm không? (Chia sẻ ẩn danh...)"
-              rows={4}
-              onKeyDown={async (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  const feedback = (e.target as HTMLTextAreaElement).value;
-                  if (feedback) {
-                    await fetch("/api/feedback", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ moodId: selected, text: feedback }),
-                    });
-                    setFeedbackSent(true);
-                  }
-                }
-              }}
-            />
-            <div className="absolute bottom-4 right-6 flex items-center gap-2">
-              <span className="text-[10px] text-gray-400 font-medium">Nhấn Enter để gửi</span>
-            </div>
-          </div>
-          <div className="flex items-center justify-center gap-2 text-[10px] text-gray-400 uppercase tracking-widest font-bold">
-            <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-            Mã hóa đầu cuối & Ẩn danh
-          </div>
-        </div>
-      )}
+    <div className="bg-[#0f1115] border border-white/5 rounded-[2.5rem] shadow-2xl p-10 text-center relative overflow-hidden group">
+      {/* Background Glow */}
+      <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-500/10 blur-[100px] rounded-full group-hover:bg-indigo-500/20 transition-all duration-700"></div>
 
-      {feedbackSent && (
-        <div className="mt-10 p-6 bg-blue-50/50 rounded-2xl border border-blue-100 animate-in zoom-in duration-500">
-          <p className="text-blue-700 font-bold text-sm">Cảm ơn bạn! Culi đã nhận được thông điệp. 💙</p>
+      <div className="relative z-10">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+          <span className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em]">Daily Check-in</span>
         </div>
-      )}
+        <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Cảm hứng hôm nay?</h2>
+        <p className="text-gray-500 text-sm mb-12">Chia sẻ ẩn danh cùng hệ thống Culi Intelligence 🛠️</p>
+        
+        <div className="flex justify-between items-center gap-2 mb-4">
+          {moods.map((m) => (
+            <button
+              key={m.value}
+              onClick={() => handleSelect(m.value)}
+              disabled={loading}
+              className={`group relative flex flex-col items-center p-4 rounded-3xl transition-all duration-500 ${
+                selected === m.value ? "bg-white/5 border border-white/10" : "hover:bg-white/[0.02]"
+              }`}
+            >
+              <div className={`text-5xl mb-4 transition-all duration-500 ${
+                selected === m.value ? "scale-125 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" : "grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
+              }`}>
+                {m.emoji}
+              </div>
+              <span className={`text-[9px] font-black uppercase tracking-[0.2em] transition-colors ${
+                selected === m.value ? "text-blue-400" : "text-gray-600 group-hover:text-gray-400"
+              }`}>
+                {m.label}
+              </span>
+            </button>
+          ))}
+        </div>
+        
+        {selected && !feedbackSent && (
+          <div className="mt-10 space-y-4 animate-in fade-in slide-in-from-top-4 duration-700">
+            <div className="relative">
+              <textarea
+                className="w-full p-6 bg-white/[0.02] border border-white/5 rounded-[1.5rem] focus:ring-4 focus:ring-blue-500/10 focus:bg-white/[0.04] focus:border-white/10 outline-none text-white text-sm transition-all placeholder:text-gray-600 resize-none shadow-inner"
+                placeholder="Có chuyện gì làm bạn bận tâm không? (Gửi ẩn danh...)"
+                rows={4}
+                onKeyDown={async (e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    const feedback = (e.target as HTMLTextAreaElement).value;
+                    if (feedback) {
+                      await fetch("/api/feedback", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ moodId: selected, text: feedback }),
+                      });
+                      setFeedbackSent(true);
+                    }
+                  }
+                }}
+              />
+              <div className="absolute bottom-4 right-6">
+                <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Enter to send</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/5"></div>
+              <div className="flex items-center gap-2 text-[9px] text-gray-500 uppercase tracking-[0.2em] font-black">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                End-to-end Encrypted
+              </div>
+              <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/5"></div>
+            </div>
+          </div>
+        )}
+
+        {feedbackSent && (
+          <div className="mt-10 p-8 bg-blue-500/5 rounded-[2rem] border border-blue-500/20 animate-in zoom-in duration-500">
+            <p className="text-blue-400 font-black text-sm tracking-tight uppercase tracking-[0.1em]">Cảm ơn bạn! Thông điệp đã được gửi an toàn. 🛡️</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
