@@ -30,7 +30,7 @@ export default function Home() {
 
         <footer className="mt-20 text-center text-gray-400 text-sm border-t pt-8">
           <p>© 2026 Mood & Feedback Tracker. Design & Code by <strong>Culi Agent</strong> for <strong>Anh Khang</strong>.</p>
-        </div>
+        </footer>
       </div>
     </main>
   );
