@@ -31,17 +31,17 @@ export default function MoodPicker() {
   };
 
   return (
-    <div className="bg-[#0f1115] border border-white/5 rounded-[2.5rem] shadow-2xl p-10 text-center relative overflow-hidden group">
+    <div className="bg-card border border-border rounded-[2.5rem] shadow-2xl p-10 text-center relative overflow-hidden group transition-colors duration-300">
       {/* Background Glow */}
-      <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-500/10 blur-[100px] rounded-full group-hover:bg-indigo-500/20 transition-all duration-700"></div>
+      <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-500/10 blur-[100px] rounded-full group-hover:bg-indigo-500/20 transition-all duration-700" aria-hidden></div>
 
       <div className="relative z-10">
         <div className="flex items-center justify-center gap-2 mb-4">
-          <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
-          <span className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em]">Daily Check-in</span>
+          <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" aria-hidden></span>
+          <span className="text-[10px] font-black text-blue-500 dark:text-blue-400 uppercase tracking-[0.3em]">Daily Check-in</span>
         </div>
-        <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Cảm hứng hôm nay?</h2>
-        <p className="text-gray-500 text-sm mb-12">Chia sẻ ẩn danh cùng hệ thống Culi Intelligence 🛠️</p>
+        <h2 className="text-3xl font-black text-foreground mb-2 tracking-tight">Cảm hứng hôm nay?</h2>
+        <p className="text-muted text-sm mb-12">Chia sẻ ẩn danh cùng hệ thống Culi Intelligence 🛠️</p>
         
         <div className="flex justify-between items-center gap-2 mb-4">
           {moods.map((m) => (
@@ -50,16 +50,16 @@ export default function MoodPicker() {
               onClick={() => handleSelect(m.value)}
               disabled={loading}
               className={`group relative flex flex-col items-center p-4 rounded-3xl transition-all duration-500 ${
-                selected === m.value ? "bg-white/5 border border-white/10" : "hover:bg-white/[0.02]"
+                selected === m.value ? "bg-surface border border-border" : "hover:bg-surface-hover"
               }`}
             >
               <div className={`text-5xl mb-4 transition-all duration-500 ${
-                selected === m.value ? "scale-125 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" : "grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
+                selected === m.value ? "scale-125 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]" : "grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
               }`}>
                 {m.emoji}
               </div>
               <span className={`text-[9px] font-black uppercase tracking-[0.2em] transition-colors ${
-                selected === m.value ? "text-blue-400" : "text-gray-600 group-hover:text-gray-400"
+                selected === m.value ? "text-blue-500 dark:text-blue-400" : "text-muted group-hover:text-muted-foreground"
               }`}>
                 {m.label}
               </span>
@@ -71,7 +71,7 @@ export default function MoodPicker() {
           <div className="mt-10 space-y-4 animate-in fade-in slide-in-from-top-4 duration-700">
             <div className="relative">
               <textarea
-                className="w-full p-6 bg-white/[0.02] border border-white/5 rounded-[1.5rem] focus:ring-4 focus:ring-blue-500/10 focus:bg-white/[0.04] focus:border-white/10 outline-none text-white text-sm transition-all placeholder:text-gray-600 resize-none shadow-inner"
+                className="w-full p-6 bg-surface border border-border rounded-[1.5rem] focus:ring-4 focus:ring-blue-500/10 focus:bg-surface-hover focus:border-border outline-none text-foreground text-sm transition-all placeholder:text-muted resize-none shadow-inner"
                 placeholder="Có chuyện gì làm bạn bận tâm không? (Gửi ẩn danh...)"
                 rows={4}
                 onKeyDown={async (e) => {
@@ -90,23 +90,23 @@ export default function MoodPicker() {
                 }}
               />
               <div className="absolute bottom-4 right-6">
-                <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Enter to send</span>
+                <span className="text-[10px] text-muted font-bold uppercase tracking-widest">Enter to send</span>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3">
-              <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/5"></div>
-              <div className="flex items-center gap-2 text-[9px] text-gray-500 uppercase tracking-[0.2em] font-black">
-                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+              <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-border" aria-hidden></div>
+              <div className="flex items-center gap-2 text-[9px] text-muted uppercase tracking-[0.2em] font-black">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" aria-hidden></span>
                 End-to-end Encrypted
               </div>
-              <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/5"></div>
+              <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-border" aria-hidden></div>
             </div>
           </div>
         )}
 
         {feedbackSent && (
           <div className="mt-10 p-8 bg-blue-500/5 rounded-[2rem] border border-blue-500/20 animate-in zoom-in duration-500">
-            <p className="text-blue-400 font-black text-sm tracking-tight uppercase tracking-[0.1em]">Cảm ơn bạn! Thông điệp đã được gửi an toàn. 🛡️</p>
+            <p className="text-blue-500 dark:text-blue-400 font-black text-sm tracking-tight uppercase tracking-[0.1em]">Cảm ơn bạn! Thông điệp đã được gửi an toàn. 🛡️</p>
           </div>
         )}
       </div>
